@@ -32,7 +32,8 @@ public class UsuarioController {
 
   @JsonView(View.UsuarioResumo.class)
   @GetMapping()
-  @PreAuthorize("isAuthenticated")
+  
+  
   public List<Usuario> buscarTodos() {
     return segurancaService.buscarTodosUsuarios();
   }
@@ -50,6 +51,7 @@ public class UsuarioController {
   }
 
   @JsonView(View.UsuarioResumo.class)
+  
   @PostMapping
   public ResponseEntity<Usuario> cadastraNovoUsuario(@RequestBody Usuario usuario,
         UriComponentsBuilder uriComponentsBuilder) {
