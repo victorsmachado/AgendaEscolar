@@ -4,3 +4,5 @@
 
 
 Para rodar utilize: mvn spring-boot:run
+
+TEMPO DO VIDEO Spring Security 3 : 4.54
