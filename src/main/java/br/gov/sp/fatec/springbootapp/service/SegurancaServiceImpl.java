@@ -14,11 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.gov.sp.fatec.springbootapp.entity.Anotacao;
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
 import br.gov.sp.fatec.springbootapp.exception.RegistroNaoEncontradoException;
 import br.gov.sp.fatec.springbootapp.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
+import br.gov.sp.fatec.springbootapp.repository.AnotacaoRepository;
 
 @Service("segurancaService")
 public class SegurancaServiceImpl implements SegurancaService {
@@ -28,6 +30,9 @@ public class SegurancaServiceImpl implements SegurancaService {
 
     @Autowired
     private UsuarioRepository usuarioRepo;
+
+    @Autowired
+    private AnotacaoRepository anotacaoRepo;
 
 
     @Autowired
@@ -98,6 +103,20 @@ public class SegurancaServiceImpl implements SegurancaService {
           .map(Autorizacao::getNome).collect(Collectors.toList())
           .toArray(new String[usuario.getAutorizacoes().size()]))
       .build();
+    }
+
+    @Override
+    public Anotacao criarAnotacao(String titulo, String texto) {
+        Anotacao anotacao = new Anotacao();
+        anotacao.setTitulo(titulo);
+        anotacao.setTexto(texto);
+        anotacaoRepo.save(anotacao);
+        return anotacao;
+    }
+
+    @Override
+    public List<Anotacao> buscarTodasAnotacoes() {
+      return anotacaoRepo.findAll();
     }
     
 }

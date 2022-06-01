@@ -14,8 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.gov.sp.fatec.springbootapp.entity.Anotacao;
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
+import br.gov.sp.fatec.springbootapp.repository.AnotacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
 import br.gov.sp.fatec.springbootapp.service.SegurancaService;
@@ -29,6 +31,9 @@ class SpringBootAppApplicationTests {
 
   @Autowired
   private AutorizacaoRepository autRepo;
+
+  @Autowired
+  private AnotacaoRepository antRepo;
 
   @Autowired
   private SegurancaService segService;
@@ -64,6 +69,8 @@ class SpringBootAppApplicationTests {
     assertNotNull(usuario.getAutorizacoes().iterator().next().getId());
   }
 
+  
+
   @Test
   void testaInsercaoAutorizacao() {
     Usuario usuario = new Usuario();
@@ -77,6 +84,16 @@ class SpringBootAppApplicationTests {
     autRepo.save(aut);
     assertNotNull(aut.getUsuarios().iterator().next().getId());
   }
+
+  @Test
+  void testaInsercaoAnotacao() {
+    Anotacao anotacao = new Anotacao();
+    anotacao.setTitulo("titulo");
+    anotacao.setTexto("texto");
+    antRepo.save(anotacao);
+  }
+
+  
 
   @Test
   void testaAutorizacao() {
