@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import br.gov.sp.fatec.springbootapp.entity.Anotacao;
+import br.gov.sp.fatec.springbootapp.entity.Trabalho;
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
 
@@ -20,8 +20,8 @@ public interface SegurancaService extends UserDetailsService{
 
     public Autorizacao buscarAutorizacaoPorNome(String nome);
 
-    public Anotacao criarAnotacao(String titulo, String texto);
+    public Trabalho criarTrabalho(String titulo, String texto);
 
-    public List<Anotacao> buscarTodasAnotacoes();
+    public List<Trabalho> buscarTodasTrabalhos();
     
 }

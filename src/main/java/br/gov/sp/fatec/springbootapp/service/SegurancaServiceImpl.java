@@ -14,13 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.gov.sp.fatec.springbootapp.entity.Anotacao;
+import br.gov.sp.fatec.springbootapp.entity.Trabalho;
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
 import br.gov.sp.fatec.springbootapp.exception.RegistroNaoEncontradoException;
 import br.gov.sp.fatec.springbootapp.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
-import br.gov.sp.fatec.springbootapp.repository.AnotacaoRepository;
+import br.gov.sp.fatec.springbootapp.repository.TrabalhoRepository;
 
 @Service("segurancaService")
 public class SegurancaServiceImpl implements SegurancaService {
@@ -32,12 +32,13 @@ public class SegurancaServiceImpl implements SegurancaService {
     private UsuarioRepository usuarioRepo;
 
     @Autowired
-    private AnotacaoRepository anotacaoRepo;
+    private TrabalhoRepository trabalhoRepo;
 
 
     @Autowired
     private PasswordEncoder passEncoder;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public Usuario criarUsuario(String nome, String senha, String autorizacao) {
         Autorizacao aut = autRepo.findByNome(autorizacao);
@@ -106,17 +107,17 @@ public class SegurancaServiceImpl implements SegurancaService {
     }
 
     @Override
-    public Anotacao criarAnotacao(String titulo, String texto) {
-        Anotacao anotacao = new Anotacao();
-        anotacao.setTitulo(titulo);
-        anotacao.setTexto(texto);
-        anotacaoRepo.save(anotacao);
-        return anotacao;
+    public Trabalho criarTrabalho(String titulo, String texto) {
+        Trabalho trabalho = new Trabalho();
+        trabalho.setTitulo(titulo);
+        trabalho.setTexto(texto);
+        trabalhoRepo.save(trabalho);
+        return trabalho;
     }
 
     @Override
-    public List<Anotacao> buscarTodasAnotacoes() {
-      return anotacaoRepo.findAll();
+    public List<Trabalho> buscarTodasTrabalhos() {
+      return trabalhoRepo.findAll();
     }
     
 }

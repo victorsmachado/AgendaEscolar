@@ -1,13 +1,13 @@
 drop user 'user'@'localhost';
-drop schema anotacao;
+drop schema agenda;
 
-create schema anotacao;
+create schema agenda;
 
-use anotacao;
+use agenda;
 
 create user 'user'@'localhost' identified by 'pass123';
 
-grant select, insert, delete, update on anotacao.* to user@'localhost';
+grant select, insert, delete, update on agenda.* to user@'localhost';
 
 create table usr_usuario (
   usr_id bigint unsigned not null auto_increment,
@@ -32,12 +32,12 @@ create table uau_usuario_autorizacao (
   foreign key aut_autorizacao_fk (aut_id) references aut_autorizacao (aut_id) on delete restrict on update cascade
 );
 
-create table ant_anotacao (
+create table ant_trabalho (
   ant_id bigint unsigned not null auto_increment,
   ant_titulo varchar(20) not null,
   ant_texto varchar(100) not null,
   primary key (ant_id),
-  unique key ant_anotacao_titulo (ant_titulo)
+  unique key ant_trabalho_titulo (ant_titulo)
 );
 
 insert into usr_usuario (usr_nome, usr_senha)
@@ -46,5 +46,5 @@ insert into aut_autorizacao (aut_nome)
     values ('ROLE_ADMIN');
 insert into uau_usuario_autorizacao values (1, 1);
 
-insert into ant_anotacao (ant_titulo, ant_texto)
+insert into ant_trabalho (ant_titulo, ant_texto)
     values ('teste', 'teste');

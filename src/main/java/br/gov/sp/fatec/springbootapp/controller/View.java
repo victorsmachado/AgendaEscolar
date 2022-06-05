@@ -8,6 +8,6 @@ public class View {
 
   public static class AutorizacaoResumo {}
 
-  public static class AnotacaoCompleto {}
+  public static class TrabalhoCompleto {}
   
 }

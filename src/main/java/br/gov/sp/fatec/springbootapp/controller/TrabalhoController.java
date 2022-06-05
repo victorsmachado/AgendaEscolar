@@ -17,32 +17,32 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import br.gov.sp.fatec.springbootapp.entity.Anotacao;
+import br.gov.sp.fatec.springbootapp.entity.Trabalho;
 import br.gov.sp.fatec.springbootapp.service.SegurancaService;
 
 @RestController
-@RequestMapping(value ="/anotacao")
+@RequestMapping(value ="/trabalho")
 @CrossOrigin
-public class AnotacaoController {
+public class TrabalhoController {
     
  @Autowired
   private SegurancaService segurancaService;
 
-  @JsonView(View.AnotacaoCompleto.class)
+  @JsonView(View.TrabalhoCompleto.class)
   @GetMapping()
-  public List<Anotacao> buscarTodas() {
-    return segurancaService.buscarTodasAnotacoes();
+  public List<Trabalho> buscarTodas() {
+    return segurancaService.buscarTodasTrabalhos();
   }
 
   
   @PostMapping
-  public ResponseEntity<Anotacao> cadastraNovoUsuario(@RequestBody Anotacao anotacao,
+  public ResponseEntity<Trabalho> cadastraNovoUsuario(@RequestBody Trabalho trabalho,
         UriComponentsBuilder uriComponentsBuilder) {
-    anotacao = segurancaService.criarAnotacao(anotacao.getTitulo(), anotacao.getTexto());
+    trabalho = segurancaService.criarTrabalho(trabalho.getTitulo(), trabalho.getTexto());
     HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(
         uriComponentsBuilder.path(
-            "/anotacao/" + anotacao.getId()).build().toUri());
-    return new ResponseEntity<Anotacao>(anotacao, responseHeaders, HttpStatus.CREATED);
+            "/trabalho/" + trabalho.getId()).build().toUri());
+    return new ResponseEntity<Trabalho>(trabalho, responseHeaders, HttpStatus.CREATED);
   }
 }

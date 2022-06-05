@@ -14,10 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.gov.sp.fatec.springbootapp.entity.Anotacao;
+import br.gov.sp.fatec.springbootapp.entity.Trabalho;
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
-import br.gov.sp.fatec.springbootapp.repository.AnotacaoRepository;
+import br.gov.sp.fatec.springbootapp.repository.TrabalhoRepository;
 import br.gov.sp.fatec.springbootapp.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
 import br.gov.sp.fatec.springbootapp.service.SegurancaService;
@@ -33,7 +33,7 @@ class SpringBootAppApplicationTests {
   private AutorizacaoRepository autRepo;
 
   @Autowired
-  private AnotacaoRepository antRepo;
+  private TrabalhoRepository antRepo;
 
   @Autowired
   private SegurancaService segService;
@@ -86,11 +86,11 @@ class SpringBootAppApplicationTests {
   }
 
   @Test
-  void testaInsercaoAnotacao() {
-    Anotacao anotacao = new Anotacao();
-    anotacao.setTitulo("titulo");
-    anotacao.setTexto("texto");
-    antRepo.save(anotacao);
+  void testaInsercaoTrabalho() {
+    Trabalho trabalho = new Trabalho();
+    trabalho.setTitulo("titulo");
+    trabalho.setTexto("texto");
+    antRepo.save(trabalho);
   }
 
   

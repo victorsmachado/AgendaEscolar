@@ -14,11 +14,11 @@ import com.fasterxml.jackson.annotation.JsonView;
 import br.gov.sp.fatec.springbootapp.controller.View;
 
 @Entity
-@Table(name = "ant_anotacao")
-public class Anotacao {
+@Table(name = "ant_trabalho")
+public class Trabalho {
 
 
-    @JsonView(View.AnotacaoCompleto.class)
+    @JsonView(View.TrabalhoCompleto.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ant_id")
@@ -48,11 +48,11 @@ public class Anotacao {
         this.texto = texto;
     }
 
-    @JsonView({View.AnotacaoCompleto.class})
+    @JsonView({View.TrabalhoCompleto.class})
     @Column(name = "ant_titulo")
     private String titulo;
 
-    @JsonView({View.AnotacaoCompleto.class})
+    @JsonView({View.TrabalhoCompleto.class})
     @Column(name = "ant_texto")
     private String texto;
 }
