@@ -17,10 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.sp.fatec.springbootapp.entity.Trabalho;
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
+import br.gov.sp.fatec.springbootapp.entity.Atividade;
 import br.gov.sp.fatec.springbootapp.exception.RegistroNaoEncontradoException;
 import br.gov.sp.fatec.springbootapp.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
 import br.gov.sp.fatec.springbootapp.repository.TrabalhoRepository;
+import br.gov.sp.fatec.springbootapp.repository.AtividadeRepository;
 
 @Service("segurancaService")
 public class SegurancaServiceImpl implements SegurancaService {
@@ -33,6 +35,9 @@ public class SegurancaServiceImpl implements SegurancaService {
 
     @Autowired
     private TrabalhoRepository trabalhoRepo;
+
+    @Autowired
+    private AtividadeRepository atividadeRepo;
 
 
     @Autowired
@@ -72,6 +77,17 @@ public class SegurancaServiceImpl implements SegurancaService {
       throw new RegistroNaoEncontradoException("Usuário não encontrado!");
     }
 
+    @Override
+    public Trabalho buscarTrabalhoPorId(Long id) {
+      Optional<Trabalho> trabalhoOp = trabalhoRepo.findById(id);
+      if(trabalhoOp.isPresent()) {
+        return trabalhoOp.get();
+      }
+      throw new RegistroNaoEncontradoException("Trabalho não encontrado!");
+    }
+
+
+    
     @Override
     @PreAuthorize("isAuthenticated()")
     public Usuario buscarUsuarioPorNome(String nome) {
@@ -118,6 +134,26 @@ public class SegurancaServiceImpl implements SegurancaService {
     @Override
     public List<Trabalho> buscarTodasTrabalhos() {
       return trabalhoRepo.findAll();
+    }
+
+    @Override
+	  @PreAuthorize("hasRole('ROLE_ADMIN')")
+	  public void excluir(Long idTrabalho) {
+		trabalhoRepo.deleteById(idTrabalho);
+	}
+
+    @Override
+    public Atividade criarAtividade(String trabalhoId, String usuarioNome) {
+      Atividade atividade = new Atividade();
+      atividade.setTrabalhoId(trabalhoId);
+      atividade.setUsuarioNome(usuarioNome);
+      atividadeRepo.save(atividade);
+        return atividade;
+    }
+
+    @Override
+    public List<Atividade> buscarTodasAtividades() {
+      return atividadeRepo.findAll();
     }
     
 }

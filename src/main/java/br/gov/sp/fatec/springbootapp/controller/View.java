@@ -9,5 +9,7 @@ public class View {
   public static class AutorizacaoResumo {}
 
   public static class TrabalhoCompleto {}
+
+  public static class AtividadeCompleto {}
   
 }

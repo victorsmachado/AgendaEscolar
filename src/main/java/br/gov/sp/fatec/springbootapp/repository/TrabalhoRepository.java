@@ -12,6 +12,8 @@ public interface TrabalhoRepository extends JpaRepository<Trabalho, Long> {
 
     public Trabalho findByTitulo(String titulo);
 
+    
+
 
 
 

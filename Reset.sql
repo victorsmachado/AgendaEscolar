@@ -40,6 +40,15 @@ create table ant_trabalho (
   unique key ant_trabalho_titulo (ant_titulo)
 );
 
+create table atv_atividade (
+  atv_id bigint unsigned not null auto_increment,
+  ant_id varchar(20) not null,
+  usr_nome varchar(100) not null,
+  atv_img varchar(64),
+  primary key (atv_id)
+);
+
+
 insert into usr_usuario (usr_nome, usr_senha)
     values ('admin', '$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C');
 insert into aut_autorizacao (aut_nome)

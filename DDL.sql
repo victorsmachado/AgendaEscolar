@@ -34,7 +34,14 @@ create table ant_trabalho (
   ant_titulo varchar(20) not null,
   ant_texto varchar(100) not null,
   primary key (ant_id),
-  unique key ant_trabalho_titulo (ant_titulo)
+);
+
+create table atv_atividade (
+  atv_id bigint unsigned not null auto_increment,
+  ant_id varchar(20) not null,
+  usr_nome varchar(100) not null,
+  atv_img varchar(64),
+  primary key (atv_id),
 );
 
 insert into usr_usuario (usr_nome, usr_senha)
