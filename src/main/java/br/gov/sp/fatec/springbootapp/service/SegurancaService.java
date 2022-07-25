@@ -54,6 +54,8 @@ public interface SegurancaService extends UserDetailsService{
 
     public List<Feedback> buscarFeedbackById(String id);
 
+    public void excluirFeedback(Long idFeedback);
+
 
 
 
