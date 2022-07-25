@@ -10,6 +10,16 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Long> {
 
     public List<Atividade> findByUsuarioNomeContainsIgnoreCase(String usuarioNome);
 
+    public List<Atividade> findByTrabalhoIdContainsIgnoreCase(String trabalhoId);
+
+
+
     public Atividade findByUsuarioNome(String usuarioNome);
+
+    public Atividade findByTrabalhoId(String trabalhoId);
+
+  
+
+    
 
 }

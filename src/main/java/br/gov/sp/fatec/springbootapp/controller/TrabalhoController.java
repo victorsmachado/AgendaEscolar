@@ -21,11 +21,15 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import br.gov.sp.fatec.springbootapp.entity.Trabalho;
 import br.gov.sp.fatec.springbootapp.service.SegurancaService;
+import br.gov.sp.fatec.springbootapp.repository.TrabalhoRepository;
 
 @RestController
 @RequestMapping(value ="/trabalho")
 @CrossOrigin
 public class TrabalhoController {
+
+  @Autowired
+  private TrabalhoRepository trabalhoRepo;
     
  @Autowired
   private SegurancaService segurancaService;
@@ -54,7 +58,18 @@ public class TrabalhoController {
     return new ResponseEntity<Trabalho>(trabalho, responseHeaders, HttpStatus.CREATED);
   }
 
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<HttpStatus> deleteTrabalho(@PathVariable("id") long id) {
+    try {
+      trabalhoRepo.deleteById(id);
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+}
+
   
     
 	
-}
+

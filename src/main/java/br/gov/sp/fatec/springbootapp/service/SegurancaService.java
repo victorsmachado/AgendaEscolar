@@ -8,6 +8,7 @@ import br.gov.sp.fatec.springbootapp.entity.Trabalho;
 import br.gov.sp.fatec.springbootapp.entity.Atividade;
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
+import br.gov.sp.fatec.springbootapp.entity.Feedback;
 
 public interface SegurancaService extends UserDetailsService{
 
@@ -29,8 +30,33 @@ public interface SegurancaService extends UserDetailsService{
 
     public void excluir(Long idTrabalho);
 
-    public Atividade criarAtividade(String trabalhoId, String usuarioNome);
+    public void excluirAtividade(Long idAtividade);
+
+    public Atividade criarAtividade(String trabalhoId, String usuarioNome, String foto, String nomeFoto, String comentario);
 
     public List<Atividade> buscarTodasAtividades();
+
+    public List<Atividade> todos();
+
+    public List<Atividade> buscar(String nome);
+
+    public List<Atividade> buscarById(String id);
+
+    public Atividade buscarAtividadePorId(Long id);
+
+    public Feedback criarFeedback(String trabalhoTexto, String usuarioNome, String atividadeId, String atividadeImagem, String comentario);
+
+    public List<Feedback> buscarTodosFeedbacks();
+
+    public List<Feedback> todosFeedbacks();
+
+    public List<Feedback> buscarFeedback(String nome);
+
+    public List<Feedback> buscarFeedbackById(String id);
+
+
+
+
+    
     
 }

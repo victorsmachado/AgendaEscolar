@@ -34,7 +34,7 @@ create table uau_usuario_autorizacao (
 
 create table ant_trabalho (
   ant_id bigint unsigned not null auto_increment,
-  ant_titulo varchar(20) not null,
+  ant_titulo varchar(200) not null,
   ant_texto varchar(100) not null,
   primary key (ant_id),
   unique key ant_trabalho_titulo (ant_titulo)
@@ -44,16 +44,35 @@ create table atv_atividade (
   atv_id bigint unsigned not null auto_increment,
   ant_id varchar(20) not null,
   usr_nome varchar(100) not null,
-  atv_img varchar(64),
+  atv_img varchar(300),
+  atv_nomeimg varchar(300),
+  atv_comentario varchar(300),
   primary key (atv_id)
+);
+
+create table fed_feedback (
+  fed_id bigint unsigned not null auto_increment,
+  ant_texto varchar(200) not null,
+  usr_nome varchar(200) not null,
+  atv_id varchar(100) not null,
+  atv_img varchar(300),
+  fed_comentario varchar(300),
+  primary key (fed_id)
 );
 
 
 insert into usr_usuario (usr_nome, usr_senha)
     values ('admin', '$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C');
+
+insert into usr_usuario (usr_nome, usr_senha)
+    values ('professor', '$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C');
+    
 insert into aut_autorizacao (aut_nome)
     values ('ROLE_ADMIN');
+
 insert into uau_usuario_autorizacao values (1, 1);
+
+insert into uau_usuario_autorizacao values (2, 1);
 
 insert into ant_trabalho (ant_titulo, ant_texto)
     values ('teste', 'teste');

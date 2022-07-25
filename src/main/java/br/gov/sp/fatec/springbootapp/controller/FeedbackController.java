@@ -21,63 +21,57 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import br.gov.sp.fatec.springbootapp.repository.AtividadeRepository;
-import br.gov.sp.fatec.springbootapp.entity.Atividade;
+import br.gov.sp.fatec.springbootapp.repository.FeedbackRepository;
+import br.gov.sp.fatec.springbootapp.entity.Feedback;
 import br.gov.sp.fatec.springbootapp.service.SegurancaService;
 
 @RestController
-@RequestMapping(value ="/atividade")
+@RequestMapping(value ="/feedback")
 @CrossOrigin
-public class AtividadeController {
+public class FeedbackController {
     
  @Autowired
   private SegurancaService segurancaService;
 
   @Autowired
-  private AtividadeRepository atividadeRepo;
+  private FeedbackRepository feedbackRepo;
 
-  @JsonView(View.AtividadeCompleto.class)
+  @JsonView(View.FeedbackCompleto.class)
   @GetMapping()
-  public List<Atividade> buscarTodas() {
-    return segurancaService.buscarTodasAtividades();
+  public List<Feedback> buscarTodos() {
+    return segurancaService.buscarTodosFeedbacks();
   }
 
   
 
   
   @PostMapping
-  public ResponseEntity<Atividade> cadastraNovaAtividade(@RequestBody Atividade atividade,
+  public ResponseEntity<Feedback> cadastraNovoFeedback(@RequestBody Feedback feedback,
         UriComponentsBuilder uriComponentsBuilder) {
-    atividade = segurancaService.criarAtividade(atividade.getTrabalhoId(), atividade.getUsuarioNome(), atividade.getFoto(), atividade.getNomeFoto(), atividade.getComentario());
+        feedback = segurancaService.criarFeedback(feedback.getTrabalhoTexto(), feedback.getUsuarioNome(), feedback.getAtividadeId(), feedback.getAtividadeImagem(), feedback.getComentario());
     HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(
         uriComponentsBuilder.path(
-            "/atividade/" + atividade.getId()).build().toUri());
-    return new ResponseEntity<Atividade>(atividade, responseHeaders, HttpStatus.CREATED);
+            "/feedback/" + feedback.getId()).build().toUri());
+    return new ResponseEntity<Feedback>(feedback, responseHeaders, HttpStatus.CREATED);
   }
 
   @GetMapping(value = "/{nome}")
-	@JsonView(View.AtividadeCompleto.class)
-	public ResponseEntity<Collection<Atividade>> pesquisar(@PathVariable("nome") String nome) {
-		return new ResponseEntity<Collection<Atividade>>(segurancaService.buscar(nome), HttpStatus.OK);
+  @JsonView(View.FeedbackCompleto.class)
+	public ResponseEntity<Collection<Feedback>> pesquisar(@PathVariable("nome") String nome) {
+		return new ResponseEntity<Collection<Feedback>>(segurancaService.buscarFeedback(nome), HttpStatus.OK);
 	}
 
   @GetMapping(value = "/id/{id}")
-	@JsonView(View.AtividadeCompleto.class)
-	public ResponseEntity<Collection<Atividade>> pesquisarPorId(@PathVariable("id") String id) {
-		return new ResponseEntity<Collection<Atividade>>(segurancaService.buscarById(id), HttpStatus.OK);
+  @JsonView(View.FeedbackCompleto.class)
+	public ResponseEntity<Collection<Feedback>> pesquisarId(@PathVariable("id") String id) {
+		return new ResponseEntity<Collection<Feedback>>(segurancaService.buscarFeedbackById(id), HttpStatus.OK);
 	}
 
-  @JsonView(View.AtividadeCompleto.class)
-  @GetMapping(value = "/atvid/{id}")
-  public Atividade buscarPorId(@PathVariable("id") Long id) {
-    return segurancaService.buscarAtividadePorId(id);
-  }
-
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<HttpStatus> deleteAtividade(@PathVariable("id") long id) {
+  public ResponseEntity<HttpStatus> deleteFeedback(@PathVariable("id") long id) {
     try {
-      atividadeRepo.deleteById(id);
+      feedbackRepo.deleteById(id);
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

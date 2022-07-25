@@ -14,37 +14,35 @@ import com.fasterxml.jackson.annotation.JsonView;
 import br.gov.sp.fatec.springbootapp.controller.View;
 
 @Entity
-@Table(name = "atv_atividade")
-public class Atividade {
+@Table(name = "fed_feedback")
+public class Feedback {
 
 
-    @JsonView(View.AtividadeCompleto.class)
+    @JsonView(View.FeedbackCompleto.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "atv_id")
+    @Column(name = "fed_id")
     private Long id;
     
-    @JsonView({View.AtividadeCompleto.class})
-    @Column(name = "ant_id")
-    private String trabalhoId;
+    @JsonView({View.FeedbackCompleto.class})
+    @Column(name = "ant_texto")
+    private String trabalhoTexto;
 
-    @JsonView({View.AtividadeCompleto.class})
+    @JsonView({View.FeedbackCompleto.class})
     @Column(name = "usr_nome")
     private String usuarioNome;
 
-    @JsonView({View.AtividadeCompleto.class})
+    @JsonView({View.FeedbackCompleto.class})
+    @Column(name = "atv_id")
+    private String atividadeId;
+
+    @JsonView({View.FeedbackCompleto.class})
     @Column(name = "atv_img")
-    private String foto;
+    private String atividadeImagem;
 
-    @JsonView({View.AtividadeCompleto.class})
-    @Column(name = "atv_nomeimg")
-    private String nomeFoto;
-
-    @JsonView({View.AtividadeCompleto.class})
-    @Column(name = "atv_comentario")
+    @JsonView({View.FeedbackCompleto.class})
+    @Column(name = "fed_comentario")
     private String comentario;
-
-
 
 
 
@@ -56,12 +54,12 @@ public class Atividade {
         this.id = id;
     }
 
-    public String getTrabalhoId() {
-        return trabalhoId;
+    public String getTrabalhoTexto() {
+        return trabalhoTexto;
     }
 
-    public void setTrabalhoId(String trabalhoId) {
-        this.trabalhoId = trabalhoId;
+    public void setTrabalhoTexto(String trabalhoTexto) {
+        this.trabalhoTexto = trabalhoTexto;
     }
 
     public String getUsuarioNome() {
@@ -72,20 +70,20 @@ public class Atividade {
         this.usuarioNome = usuarioNome;
     }
 
-    public String getFoto() {
-        return foto;
+    public String getAtividadeId() {
+        return atividadeId;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setAtividadeId(String atividadeId) {
+        this.atividadeId = atividadeId;
     }
 
-    public String getNomeFoto() {
-        return nomeFoto;
+    public String getAtividadeImagem() {
+        return atividadeImagem;
     }
 
-    public void setNomeFoto(String nomeFoto) {
-        this.nomeFoto = nomeFoto;
+    public void setAtividadeImagem(String atividadeImagem) {
+        this.atividadeImagem = atividadeImagem;
     }
 
 
@@ -96,4 +94,5 @@ public class Atividade {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
+
 }

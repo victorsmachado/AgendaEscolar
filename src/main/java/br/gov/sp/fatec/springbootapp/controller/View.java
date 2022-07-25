@@ -11,5 +11,7 @@ public class View {
   public static class TrabalhoCompleto {}
 
   public static class AtividadeCompleto {}
+
+  public static class FeedbackCompleto {}
   
 }

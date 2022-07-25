@@ -1,5 +1,6 @@
 package br.gov.sp.fatec.springbootapp.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +19,13 @@ import br.gov.sp.fatec.springbootapp.entity.Trabalho;
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
 import br.gov.sp.fatec.springbootapp.entity.Atividade;
+import br.gov.sp.fatec.springbootapp.entity.Feedback;
 import br.gov.sp.fatec.springbootapp.exception.RegistroNaoEncontradoException;
 import br.gov.sp.fatec.springbootapp.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
 import br.gov.sp.fatec.springbootapp.repository.TrabalhoRepository;
 import br.gov.sp.fatec.springbootapp.repository.AtividadeRepository;
+import br.gov.sp.fatec.springbootapp.repository.FeedbackRepository;
 
 @Service("segurancaService")
 public class SegurancaServiceImpl implements SegurancaService {
@@ -39,11 +42,13 @@ public class SegurancaServiceImpl implements SegurancaService {
     @Autowired
     private AtividadeRepository atividadeRepo;
 
+    @Autowired
+    private FeedbackRepository feedbackRepo;
+
 
     @Autowired
     private PasswordEncoder passEncoder;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public Usuario criarUsuario(String nome, String senha, String autorizacao) {
         Autorizacao aut = autRepo.findByNome(autorizacao);
@@ -142,11 +147,18 @@ public class SegurancaServiceImpl implements SegurancaService {
 		trabalhoRepo.deleteById(idTrabalho);
 	}
 
+	  public void excluirAtividade(Long idAtividade) {
+		atividadeRepo.deleteById(idAtividade);
+	}
+
     @Override
-    public Atividade criarAtividade(String trabalhoId, String usuarioNome) {
+    public Atividade criarAtividade(String trabalhoId, String usuarioNome, String foto, String nomeFoto, String comentario) {
       Atividade atividade = new Atividade();
       atividade.setTrabalhoId(trabalhoId);
       atividade.setUsuarioNome(usuarioNome);
+      atividade.setFoto(foto);
+      atividade.setNomeFoto(nomeFoto);
+      atividade.setComentario(comentario);
       atividadeRepo.save(atividade);
         return atividade;
     }
@@ -155,5 +167,84 @@ public class SegurancaServiceImpl implements SegurancaService {
     public List<Atividade> buscarTodasAtividades() {
       return atividadeRepo.findAll();
     }
+
+  @Override
+	public List<Atividade> todos() {
+		List<Atividade> retorno = new ArrayList<Atividade>();
+		for(Atividade atividade: atividadeRepo.findAll()) {
+			retorno.add(atividade);
+		}
+		return retorno;
+	}
+
+  
+
+  @Override
+	public List<Atividade> buscar(String nome) {
+		return atividadeRepo.findByUsuarioNomeContainsIgnoreCase(nome);
+	}
+
+  @Override
+	public List<Atividade> buscarById(String id) {
+		return atividadeRepo.findByTrabalhoIdContainsIgnoreCase(id);
+
+    
+	}
+
+  @Override
+    public Atividade buscarAtividadePorId(Long id) {
+      Optional<Atividade> atividadeOp = atividadeRepo.findById(id);
+      if(atividadeOp.isPresent()) {
+        return atividadeOp.get();
+      }
+      throw new RegistroNaoEncontradoException("Usuário não encontrado!");
+    }
+
+  
+
+  public void excluirFeedback(Long idFeedback) {
+		feedbackRepo.deleteById(idFeedback);
+	}
+
+    @Override
+    public Feedback criarFeedback(String trabalhoTexto,  String usuarioNome, String atividadeId, String atividadeImagem, String comentario) {
+      Feedback feedback = new Feedback();
+      feedback.setTrabalhoTexto(trabalhoTexto);
+      feedback.setUsuarioNome(usuarioNome);
+      feedback.setAtividadeId(atividadeId);
+      feedback.setAtividadeImagem(atividadeImagem);
+      feedback.setComentario(comentario);
+      feedbackRepo.save(feedback);
+        return feedback;
+    }
+
+    @Override
+    public List<Feedback> buscarTodosFeedbacks() {
+      return feedbackRepo.findAll();
+    }
+
+  @Override
+	public List<Feedback> todosFeedbacks() {
+		List<Feedback> retorno = new ArrayList<Feedback>();
+		for(Feedback feedback: feedbackRepo.findAll()) {
+			retorno.add(feedback);
+		}
+		return retorno;
+	}
+
+  
+
+  @Override
+	public List<Feedback> buscarFeedback(String nome) {
+		return feedbackRepo.findByUsuarioNomeContainsIgnoreCase(nome);
+	}
+
+  @Override
+  public List<Feedback> buscarFeedbackById(String id){
+    return feedbackRepo.findByAtividadeIdContainsIgnoreCase(id);
+
+  }
+
+
     
 }
