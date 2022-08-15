@@ -20,12 +20,22 @@ import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
 import br.gov.sp.fatec.springbootapp.entity.Atividade;
 import br.gov.sp.fatec.springbootapp.entity.Feedback;
+import br.gov.sp.fatec.springbootapp.entity.TermosDeUso;
+import br.gov.sp.fatec.springbootapp.entity.TermosUsuario;
+import br.gov.sp.fatec.springbootapp.entity.TermosFuncional;
+
+
 import br.gov.sp.fatec.springbootapp.exception.RegistroNaoEncontradoException;
 import br.gov.sp.fatec.springbootapp.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.springbootapp.repository.UsuarioRepository;
 import br.gov.sp.fatec.springbootapp.repository.TrabalhoRepository;
 import br.gov.sp.fatec.springbootapp.repository.AtividadeRepository;
 import br.gov.sp.fatec.springbootapp.repository.FeedbackRepository;
+import br.gov.sp.fatec.springbootapp.repository.TermosDeUsoRepository;
+import br.gov.sp.fatec.springbootapp.repository.TermosUsuarioRepository;
+import br.gov.sp.fatec.springbootapp.repository.TermosFuncionalRepository;
+
+
 
 @Service("segurancaService")
 public class SegurancaServiceImpl implements SegurancaService {
@@ -44,6 +54,15 @@ public class SegurancaServiceImpl implements SegurancaService {
 
     @Autowired
     private FeedbackRepository feedbackRepo;
+
+    @Autowired
+    private TermosDeUsoRepository termosDeUsoRepo;
+
+    @Autowired
+    private TermosUsuarioRepository termosUsuarioRepo;
+
+    @Autowired
+    private TermosFuncionalRepository termosFuncionalRepo;
 
 
     @Autowired
@@ -72,15 +91,7 @@ public class SegurancaServiceImpl implements SegurancaService {
       return usuarioRepo.findAll();
     }
 
-    @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'USUARIO')")
-    public Usuario buscarUsuarioPorId(Long id) {
-      Optional<Usuario> usuarioOp = usuarioRepo.findById(id);
-      if(usuarioOp.isPresent()) {
-        return usuarioOp.get();
-      }
-      throw new RegistroNaoEncontradoException("Usuário não encontrado!");
-    }
+    
 
     @Override
     public Trabalho buscarTrabalhoPorId(Long id) {
@@ -152,7 +163,8 @@ public class SegurancaServiceImpl implements SegurancaService {
 	}
 
     @Override
-    public Atividade criarAtividade(String trabalhoId, String usuarioNome, String foto, String nomeFoto, String comentario) {
+    public Atividade criarAtividade(String trabalhoId, String usuarioNome, String foto, 
+    String nomeFoto, String comentario) {
       Atividade atividade = new Atividade();
       atividade.setTrabalhoId(trabalhoId);
       atividade.setUsuarioNome(usuarioNome);
@@ -207,7 +219,8 @@ public class SegurancaServiceImpl implements SegurancaService {
 	}
 
     @Override
-    public Feedback criarFeedback(String trabalhoTexto,  String usuarioNome, String atividadeId, String atividadeImagem, String comentario) {
+    public Feedback criarFeedback(String trabalhoTexto,  String usuarioNome, 
+    String atividadeId, String atividadeImagem, String comentario) {
       Feedback feedback = new Feedback();
       feedback.setTrabalhoTexto(trabalhoTexto);
       feedback.setUsuarioNome(usuarioNome);
@@ -216,7 +229,12 @@ public class SegurancaServiceImpl implements SegurancaService {
       feedback.setComentario(comentario);
       feedbackRepo.save(feedback);
         return feedback;
-    }
+      }
+
+      @Override
+	public List<Feedback> buscarFeedback(String nome) {
+		return feedbackRepo.findByUsuarioNomeContainsIgnoreCase(nome);
+	}
 
     @Override
     public List<Feedback> buscarTodosFeedbacks() {
@@ -234,10 +252,7 @@ public class SegurancaServiceImpl implements SegurancaService {
 
   
 
-  @Override
-	public List<Feedback> buscarFeedback(String nome) {
-		return feedbackRepo.findByUsuarioNomeContainsIgnoreCase(nome);
-	}
+  
 
   @Override
   public List<Feedback> buscarFeedbackById(String id){
@@ -245,6 +260,107 @@ public class SegurancaServiceImpl implements SegurancaService {
 
   }
 
+  @Override
+    public List<TermosDeUso> buscarTodosTermos() {
+      return termosDeUsoRepo.findAll();
+    }
 
+    @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'USUARIO')")
+    public Usuario buscarUsuarioPorId(Long id) {
+      Optional<Usuario> usuarioOp = usuarioRepo.findById(id);
+      if(usuarioOp.isPresent()) {
+        return usuarioOp.get();
+      }
+      throw new RegistroNaoEncontradoException("Usuário não encontrado!");
+    }
+
+
+    public TermosDeUso buscarTermosDeUsoPorVersion(String version) {
+      TermosDeUso termosDeUso = termosDeUsoRepo.findByVersion(version);
+      if(termosDeUso != null) {
+        return termosDeUso;
+      }
+      throw new RegistroNaoEncontradoException("Termos não encontrado!");
+
+    }
+
+    @Override
+    public TermosUsuario criarTermosUsuario(String usuario, String data, String hora, String version,  String empresaDados, String usuarioDados, String empresaParceiraDados) {
+      TermosUsuario termosUsuario = new TermosUsuario();
+      termosUsuario.setUsuario(usuario);
+      termosUsuario.setData(data);
+      termosUsuario.setHora(hora);
+      termosUsuario.setVersion(version);
+      termosUsuario.setEmpresaDados(empresaDados);
+      termosUsuario.setUsuarioDados(usuarioDados);
+      termosUsuario.setEmpresaParceiraDados(empresaParceiraDados);
+      termosUsuarioRepo.save(termosUsuario);
+        return termosUsuario;
+    }
+
+    @Override
+    public TermosFuncional criarTermosFuncional(String usuario, String data, String hora, String version,  String empresaDados, String usuarioDados, String empresaParceiraDados) {
+      TermosFuncional termosFuncional = new TermosFuncional();
+      termosFuncional.setUsuario(usuario);
+      termosFuncional.setData(data);
+      termosFuncional.setHora(hora);
+      termosFuncional.setVersion(version);
+      termosFuncional.setEmpresaDados(empresaDados);
+      termosFuncional.setUsuarioDados(usuarioDados);
+      termosFuncional.setEmpresaParceiraDados(empresaParceiraDados);
+      termosFuncionalRepo.save(termosFuncional);
+        return termosFuncional;
+    }
+
+    @Override
+    public TermosDeUso criarTermosDeUso(String version, String data, String empresaDados, String usuarioDados, String empresaParceiraDados) {
+      TermosDeUso termosDeUso = new TermosDeUso();
+      termosDeUso.setVersion(version);
+      termosDeUso.setData(data);
+      termosDeUso.setEmpresaDados(empresaDados);
+      termosDeUso.setUsuarioDados(usuarioDados);
+      termosDeUso.setEmpresaParceiraDados(empresaParceiraDados);
+      termosDeUsoRepo.save(termosDeUso);
+        return termosDeUso;
+    }
+
+    
+
+    @Override
+    public TermosUsuario buscarTermosUsuarioPorUsuario(String usuario) {
+      TermosUsuario termosUsuario = termosUsuarioRepo.findByUsuario(usuario);
+      if(termosUsuario != null) {
+        return termosUsuario;
+      }
+      throw new RegistroNaoEncontradoException("Termo não encontrado!");
+
+    }
+
+    /*@Override
+    public TermosUsuario buscarTermosUsuarioPorUsuarioEVersao(String usuario, String version) {
+      TermosUsuario termosUsuario = termosUsuarioRepo.findByUsuarioAndVersion(usuario, version);
+      if(termosUsuario != null) {
+        return termosUsuario;
+      }
+      throw new RegistroNaoEncontradoException("Termo não encontrado!");
+
+    }*/
+
+
+    @Override
+    public List<TermosUsuario> buscarTodosTermosUsuario() {
+      return termosUsuarioRepo.findAll();
+    }
+
+    @Override
+	public List<TermosUsuario> buscarTermosUsuario(String usuario, String version) {
+		return termosUsuarioRepo.findByUsuarioAndVersion(usuario, version);
+	}
+
+    @Override
+    public List<TermosFuncional> buscarTodosTermosFuncional() {
+      return termosFuncionalRepo.findAll();
+    }
     
 }

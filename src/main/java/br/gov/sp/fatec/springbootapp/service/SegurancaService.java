@@ -9,6 +9,9 @@ import br.gov.sp.fatec.springbootapp.entity.Atividade;
 import br.gov.sp.fatec.springbootapp.entity.Autorizacao;
 import br.gov.sp.fatec.springbootapp.entity.Usuario;
 import br.gov.sp.fatec.springbootapp.entity.Feedback;
+import br.gov.sp.fatec.springbootapp.entity.TermosDeUso;
+import br.gov.sp.fatec.springbootapp.entity.TermosUsuario;
+import br.gov.sp.fatec.springbootapp.entity.TermosFuncional;
 
 public interface SegurancaService extends UserDetailsService{
 
@@ -56,9 +59,25 @@ public interface SegurancaService extends UserDetailsService{
 
     public void excluirFeedback(Long idFeedback);
 
+    public List<TermosDeUso> buscarTodosTermos();
 
+    public TermosDeUso buscarTermosDeUsoPorVersion(String version);
 
+    public TermosDeUso criarTermosDeUso(String version, String data, String empresaDados, String usuarioDados, String empresaParceiraDados);
 
+    public TermosUsuario criarTermosUsuario(String usuario, String version, String data, String hora, String empresaDados, String usuarioDados, String empresaParceiraDados);
+
+    public TermosUsuario buscarTermosUsuarioPorUsuario(String usuario);
+
+    //public TermosUsuario buscarTermosUsuarioPorUsuarioEVersao(String usuario, String version);
+
+    public List<TermosUsuario> buscarTodosTermosUsuario();
+
+    public List<TermosUsuario> buscarTermosUsuario(String usuario, String version);
+
+    public List<TermosFuncional> buscarTodosTermosFuncional();
+
+    public TermosFuncional criarTermosFuncional(String usuario, String version, String data, String hora, String empresaDados, String usuarioDados, String empresaParceiraDados);
     
     
 }

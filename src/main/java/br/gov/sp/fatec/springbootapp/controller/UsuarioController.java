@@ -32,8 +32,6 @@ public class UsuarioController {
 
   @JsonView(View.UsuarioResumo.class)
   @GetMapping()
-  
-  
   public List<Usuario> buscarTodos() {
     return segurancaService.buscarTodosUsuarios();
   }

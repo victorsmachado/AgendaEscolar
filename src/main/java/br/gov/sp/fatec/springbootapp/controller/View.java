@@ -13,5 +13,9 @@ public class View {
   public static class AtividadeCompleto {}
 
   public static class FeedbackCompleto {}
+
+  public static class TermosDeUsoCompleto {}
+
+  public static class TermosUsuarioCompleto {}
   
 }
