@@ -1,8 +1,1 @@
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/mineda/spring-boot-app/tree/spring-data-jpa)
-
-# spring-boot-app
-
-
-Para rodar utilize: mvn spring-boot:run
-
-TEMPO DO VIDEO Spring Security 4 : 34.11
+Projeto Escolar desenvolvimento de uma plataforma em Vue.js com Java Spring Boot para gerenciar tarefas de uma creche durante a pandemia em home schooling.
